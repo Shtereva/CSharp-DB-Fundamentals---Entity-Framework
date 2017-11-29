@@ -1,4 +1,6 @@
 ﻿using Forum.App.Commands.Contracts;
+using Forum.App.Models;
+using Forum.Models;
 using Forum.Services.Contracts;
 
 namespace Forum.App.Commands
@@ -22,7 +24,7 @@ namespace Forum.App.Commands
                 return "You are not logged in";
             }
 
-            replyService.Create(content, postId, Session.User.Id);
+            replyService.Create<ReplyDto>(content, postId, Session.User.Id);
 
             return "Reply created successfully";
         }

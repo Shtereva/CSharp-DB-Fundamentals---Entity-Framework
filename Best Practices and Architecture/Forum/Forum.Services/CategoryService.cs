@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Forum.Data;
 using Forum.Models;
 using Forum.Services.Contracts;
@@ -13,15 +15,17 @@ namespace Forum.Services
         {
             this.context = context;
         }
-        public Category ByName(string name)
+        public TModel ByName<TModel>(string name)
         {
             var category = context.Categories
-                .SingleOrDefault(c => c.Name == name);
+                .Where(c => c.Name == name)
+                .ProjectTo<TModel>()
+                .SingleOrDefault();
 
             return category;
         }
 
-        public Category Create(string name)
+        public TModel Create<TModel>(string name)
         {
            var category = new Category()
            {
@@ -31,7 +35,9 @@ namespace Forum.Services
             context.Categories.Add(category);
             context.SaveChanges();
 
-            return category;
+            var dto = Mapper.Map<TModel>(category);
+
+            return dto;
         }
     }
 }

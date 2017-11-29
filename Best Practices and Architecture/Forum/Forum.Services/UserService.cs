@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Forum.Data;
 using Forum.Models;
 using Forum.Services.Contracts;
@@ -14,30 +16,37 @@ namespace Forum.Services
             this.context = context;
         }
 
-        public User ById(int id)
-        {
-            var user = context.Users.Find(id);
-
-            return user;
-        }
-
-        public User ByUsername(string username)
+        public TModel ById<TModel>(int id)
         {
             var user = context.Users
-                .SingleOrDefault(u => u.Username == username);
+                .Where(u => u.Id == id)
+                .ProjectTo<TModel>()
+                .SingleOrDefault();
 
             return user;
         }
 
-        public User ByUsernameAndPassword(string username, string password)
+        public TModel ByUsername<TModel>(string username)
         {
             var user = context.Users
-                .SingleOrDefault(u => u.Username == username && u.Password == password);
+                .Where(u => u.Username == username)
+                .ProjectTo<TModel>()
+                .SingleOrDefault();
 
             return user;
         }
 
-        public User Create(string username, string password)
+        public TModel ByUsernameAndPassword<TModel>(string username, string password)
+        {
+            var user = context.Users
+                .Where(u => u.Username == username && u.Password == password)
+                .ProjectTo<TModel>()
+                .SingleOrDefault();
+
+            return user;
+        }
+
+        public TModel Create<TModel>(string username, string password)
         {
             var user = new User(username, password);
 
@@ -45,7 +54,8 @@ namespace Forum.Services
 
             context.SaveChanges();
 
-            return user;
+            var dto = Mapper.Map<TModel>(user);
+            return dto;
         }
 
         public void Delete(int id)

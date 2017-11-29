@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Forum.Data;
 using Forum.Models;
 using Forum.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
 
 namespace Forum.Services
 {
@@ -18,7 +20,7 @@ namespace Forum.Services
         }
 
 
-        public Post Create(string title, string content, int categoryId, int authorId)
+        public TModel Create<TModel>(string title, string content, int categoryId, int authorId)
         {
             var post = new Post()
             {
@@ -31,27 +33,25 @@ namespace Forum.Services
             context.Posts.Add(post);
             context.SaveChanges();
 
-            return post;
+            var dto = Mapper.Map<TModel>(post);
+
+            return dto;
         }
 
-        public IEnumerable<Post> All()
+        public IQueryable<TModel> All<TModel>()
         {
             var posts = context.Posts
-                .Include(p => p.Author)
-                .Include(p => p.Category)
-                .Include(p => p.Replies)
-                .ThenInclude(p => p.Author)
-                .ToList();
+                .ProjectTo<TModel>();
 
             return posts;
         }
 
-        public Post ById(int postId)
+        public TModel ById<TModel>(int postId)
         {
             var post = context.Posts
-                .Include(p => p.Replies)
-                .ThenInclude(r => r.Author)
-                .SingleOrDefault(p => p.Id == postId);
+                .Where(p => p.Id == postId)
+                .ProjectTo<TModel>()
+                .SingleOrDefault();
 
             return post;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Forum.App.Commands.Contracts;
+using Forum.Models;
 using Forum.Services.Contracts;
 
 namespace Forum.App.Commands
@@ -18,7 +19,7 @@ namespace Forum.App.Commands
             string username = arguments[0];
             string password = arguments[1];
 
-            var user = userService.ByUsernameAndPassword(username, password);
+            var user = userService.ByUsernameAndPassword<User>(username, password);
 
             Session.User = user;
 

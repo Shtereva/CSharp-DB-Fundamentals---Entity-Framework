@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using AutoMapper;
 using Forum.App.Commands.Contracts;
+using Forum.App.Models;
+using Forum.Models;
 using Forum.Services.Contracts;
 
 namespace Forum.App.Commands
@@ -24,14 +28,14 @@ namespace Forum.App.Commands
                 return "You are not logged in";
             }
 
-            var post = postService.ById(postId);
+            var post = postService.ById<PostDetailsDto>(postId);
 
             var sb = new StringBuilder();
-            sb.AppendLine($"{post.Title} by {post.Author.Username}");
+            sb.AppendLine($"{post.Title} by {post.AuthorUsername}");
 
             foreach (var reply in post.Replies)
             {
-                sb.AppendLine($"--Reply from {reply.Author.Username} - {reply.Content}");
+                sb.AppendLine($"--Reply from {reply.AuthorUsername} - {reply.Content}");
             }
 
             return sb.ToString();

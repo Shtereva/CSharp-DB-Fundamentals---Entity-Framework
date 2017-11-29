@@ -3,6 +3,9 @@ using System.Linq;
 using System.Text;
 using Forum.App.Commands.Contracts;
 using Forum.Services.Contracts;
+using AutoMapper.QueryableExtensions;
+using Forum.App.Models;
+using Forum.Models;
 
 namespace Forum.App.Commands
 {
@@ -17,9 +20,9 @@ namespace Forum.App.Commands
 
         public string Execute(params string[] arguments)
         {
-            var posts = postService.All()
-                .GroupBy(p => p.Category.Name)
-                //.Select(p => $"{p.Id} {p.Title} - {p.Content} by {p.Author.Username} in category {p.Category.Name}")
+            var posts = postService
+                .All<PostDto>()
+                .GroupBy(p => p.CategoryName)
                 .ToList();
 
             var sb = new StringBuilder();
@@ -33,7 +36,7 @@ namespace Forum.App.Commands
                 foreach (var post in group)
                 {
                     sb.AppendLine(
-                        $"{post.Id} {post.Title} - {post.Content} by {post.Author.Username} in category {post.Category.Name}");
+                        $"{post.Id} {post.Title} - {post.Content} by {post.AuthorUsername} in category {post.CategoryName}");
                 }
             }
 

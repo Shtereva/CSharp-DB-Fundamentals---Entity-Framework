@@ -1,4 +1,5 @@
 ﻿using Forum.App.Commands.Contracts;
+using Forum.Models;
 using Forum.Services.Contracts;
 
 namespace Forum.App.Commands
@@ -16,13 +17,13 @@ namespace Forum.App.Commands
             string username = arguments[0];
             string password = arguments[1];
 
-            var existingUser = userService.ByUsername(username);
+            var existingUser = userService.ByUsername<User>(username);
             if (existingUser != null)
             {
                 return "There is already an exisitng user with that username.";
             }
 
-            userService.Create(username, password);
+            userService.Create<User>(username, password);
 
             return "Registration successfull";
         }

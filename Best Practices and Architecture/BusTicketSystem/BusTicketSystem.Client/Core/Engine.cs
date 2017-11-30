@@ -14,6 +14,7 @@ namespace BusTicketSystem.Client.Core
         public void Run()
         {
             string command;
+            Console.Write("Enter command: ");
 
             while ((command = Console.ReadLine().Trim()) != " Exit")
             {

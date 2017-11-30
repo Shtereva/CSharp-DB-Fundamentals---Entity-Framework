@@ -33,7 +33,11 @@ namespace BusTicketSystem.Client.Core
                     var printReview = new PrintReviewsCommand();
                     result = printReview.Execute(commandArg);
                     break;
-                    default: throw new InvalidOperationException("Invalid command!");
+                case "ChangeTripStatus":
+                    var changeTripStatusCommand = new ChangeTripStatusCommand();
+                    result = changeTripStatusCommand.Execute(commandArg);
+                    break;
+                default: throw new InvalidOperationException("Invalid command!");
             }
             return result;
         }

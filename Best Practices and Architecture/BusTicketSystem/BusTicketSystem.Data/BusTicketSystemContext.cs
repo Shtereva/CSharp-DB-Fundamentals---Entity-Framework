@@ -27,6 +27,8 @@ namespace BusTicketSystem.Data
 
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<ArrivedTrip> ArrivedTrips { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ServerConfig.ConnectionString);

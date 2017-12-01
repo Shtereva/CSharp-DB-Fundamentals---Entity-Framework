@@ -4,11 +4,19 @@ using System.Text;
 using AutoMapper;
 using Employees.App.Models;
 using Employees.Data;
+using Employees.Services;
 
 namespace Employees.App.Commands
 {
     public class EmployeePersonalInfoCommand
     {
+        private readonly EmployeeService employeeService;
+
+        public EmployeePersonalInfoCommand(EmployeeService employeeService)
+        {
+            this.employeeService = employeeService;
+        }
+
         public string Execute(string[] data)
         {
             if (data.Length != 1)
@@ -19,21 +27,12 @@ namespace Employees.App.Commands
             int employeeId = int.Parse(data[0]);
             var result = new StringBuilder();
 
-            using (var db = new EmployeesContext())
-            {
-                var employee = db.Employees.Find(employeeId);
+            var employee = employeeService.ById<EmployeeFullInfoDto>(employeeId);
 
-                if (employee == null)
-                {
-                    throw new ArgumentException("Invalid Employee");
-                }
+            result.AppendLine($"ID: {employee.Id} - {employee.FirstName} {employee.LastName} - ${employee.Salary:f2}");
+            result.AppendLine($"Birthday: {employee.BirthDay:dd-MM-yyyy}");
+            result.Append($"Address: {employee.Address}");
 
-                var employeeDto = Mapper.Map<EmployeeFullInfoDto>(employee);
-
-                result.AppendLine($"ID: {employeeDto.Id} - {employeeDto.FirstName} {employeeDto.LastName} - ${employeeDto.Salary:f2}");
-                result.AppendLine($"Birthday: {employeeDto.BirthDay:dd-MM-yyyy}");
-                result.Append($"Address: {employeeDto.Address}");
-            }
             return result.ToString();
         }
     }

@@ -5,9 +5,11 @@ namespace Employees.App
     public class Engine
     {
         private readonly CommandDispatcher commandDispatcher;
-        public Engine(CommandDispatcher commandDispatcher)
+        private readonly IServiceProvider serviceProvider;
+        public Engine(CommandDispatcher commandDispatcher, IServiceProvider serviceProvider)
         {
             this.commandDispatcher = commandDispatcher;
+            this.serviceProvider = serviceProvider;
         }
         public void Run()
         {
@@ -15,17 +17,17 @@ namespace Employees.App
 
             while ((input = Console.ReadLine().Trim()) != "Exit")
             {
-                //try
-                //{
+                try
+                {
                     var data = input.Split();
 
-                    string result = commandDispatcher.DispatchCommand(data);
+                    string result = commandDispatcher.DispatchCommand(data, serviceProvider);
                     Console.WriteLine(result);
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e.Message);
-                //}
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 

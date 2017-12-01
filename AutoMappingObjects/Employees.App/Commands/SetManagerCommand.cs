@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Linq;
 using Employees.Data;
+using Employees.Services;
 
 namespace Employees.App.Commands
 {
     public class SetManagerCommand
     {
+        private readonly EmployeeService employeeService;
+
+        public SetManagerCommand(EmployeeService employeeService)
+        {
+            this.employeeService = employeeService;
+        }
         public string Execute(string[] data)
         {
             if (data.Length != 2)
@@ -16,18 +23,7 @@ namespace Employees.App.Commands
             int employeeId = int.Parse(data[0]);
             int managerId = int.Parse(data[1]);
 
-            using (var db = new EmployeesContext())
-            {
-                var employee = db.Employees.Find(employeeId);
-
-                if (employee == null || !db.Employees.Any(e => e.Id == managerId))
-                {
-                    throw new ArgumentException("Invalid Employee");
-                }
-
-                employee.ManagerId = managerId;
-                db.SaveChanges();
-            }
+            employeeService.SetManager(employeeId, managerId);
 
             return "Success";
         }

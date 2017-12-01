@@ -2,11 +2,19 @@
 using System.Globalization;
 using System.Linq;
 using Employees.Data;
+using Employees.Services;
 
 namespace Employees.App.Commands
 {
     public class SetAddressCommand
     {
+        private readonly EmployeeService employeeService;
+
+        public SetAddressCommand(EmployeeService employeeService)
+        {
+            this.employeeService = employeeService;
+        }
+
         public string Execute(string[] data)
         {
             if (data.Length < 2)
@@ -17,19 +25,7 @@ namespace Employees.App.Commands
             int employeeId = int.Parse(data[0]);
             string address = string.Join(" ", data.Skip(1));
 
-            using (var db = new EmployeesContext())
-            {
-                var employee = db.Employees.Find(employeeId);
-
-                if (employee == null)
-                {
-                    throw new ArgumentException("Invalid Employee");
-                }
-
-                employee.Address = address;
-
-                db.SaveChanges();
-            }
+            employeeService.SetAddress(employeeId, address);
 
             return $"Employee's address set to {address}";
         }

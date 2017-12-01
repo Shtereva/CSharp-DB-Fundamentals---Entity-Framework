@@ -3,11 +3,19 @@ using System.Linq;
 using AutoMapper;
 using Employees.App.Models;
 using Employees.Data;
+using Employees.Services;
 
 namespace Employees.App.Commands
 {
     public class EmployeeInfoCommand
     {
+        private readonly EmployeeService employeeService;
+
+        public EmployeeInfoCommand(EmployeeService employeeService)
+        {
+            this.employeeService = employeeService;
+        }
+
         public string Execute(string[] data)
         {
             if (data.Length != 1)
@@ -16,21 +24,11 @@ namespace Employees.App.Commands
             }
 
             int employeeId = int.Parse(data[0]);
-            string result = string.Empty;
 
-            using (var db = new EmployeesContext())
-            {
-                var employee = db.Employees.Find(employeeId);
+            var employee = employeeService.ById<EmployeeDto>(employeeId);
 
-                if (employee == null)
-                {
-                    throw new ArgumentException("Invalid Employee");
-                }
+            var result = $"ID: {employee.Id} - {employee.FirstName} {employee.LastName} - ${employee.Salary:f2}";
 
-                var employeeDto = Mapper.Map<EmployeeDto>(employee);
-
-                result = $"ID: {employeeDto.Id} - {employeeDto.FirstName} {employeeDto.LastName} - ${employeeDto.Salary:f2}";
-            }
             return result;
         }
     }

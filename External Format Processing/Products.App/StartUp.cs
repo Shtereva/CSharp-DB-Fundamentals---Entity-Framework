@@ -16,20 +16,23 @@ namespace Products.App
         {
             //JSON Processing
             // 00.Create Database
-            //DbReset();
+            DbReset();
 
             //01.Import Data from JSON
-            //ImportData();
+            ImportData();
 
             //02.Query and Export Data from JSON
-            //ExportData();
+            ExportData();
+
+            //Reset Database
+            DbReset();
 
             //XML Processing
             // 01.Import Data from XML
-            //ImportDataXml();
+            ImportDataXml();
 
             //02.Query and Export Data from XML
-            //ExportDataXml();
+            ExportDataXml();
 
         }
 

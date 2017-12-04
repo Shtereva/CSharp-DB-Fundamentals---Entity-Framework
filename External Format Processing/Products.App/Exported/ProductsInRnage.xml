@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<products>
+  <product name="Butalbital, Aspirin and Caffeine" price="1010.98" buyer="Fred Allen" />
+  <product name="Aspen" price="1046.46" buyer="Fred Allen" />
+  <product name="Acetic Acid" price="1060.43" buyer="Joshua Murray" />
+  <product name="up and up temporary minor arthritis pain relief" price="1085.78" buyer="Ann Stevens" />
+  <product name="ESIKA 3-IN-1 PRO MAKE UP FOUNDATION SPF 20 BASE DE MAQUILLAJE PARA ROSTRO 3-EN-1 PRO FPS 20" price="1097.60" buyer=" Schmidt" />
+  <product name="Head and Shoulders Conditioner" price="1099.59" buyer="Patricia Cooper" />
+  <product name="PREMIER VALUE ALLERGY" price="1127.61" buyer=" Bennett" />
+  <product name="Lorazepam" price="1134.96" buyer="Paula Hill" />
+  <product name="Baza Antifungal" price="1162.34" buyer="Brenda Howell" />
+  <product name="Benazepril Hydrochloride and Hydrochlorothiazide" price="1187.27" buyer="Anna Parker" />
+  <product name="IOPE RETIGEN MOISTURE TWIN CAKE NO.21" price="1257.71" buyer="Christine Gomez" />
+  <product name="VITALUMIERE AQUA" price="1293.09" buyer=" Harrison" />
+  <product name="Ibuprofen" price="1305.96" buyer="Jennifer Riley" />
+  <product name="Leg Cramp Relief" price="1345.69" buyer="Billy Parker" />
+  <product name="EMEND" price="1365.51" buyer=" Peterson" />
+  <product name="Metoprolol Tartrate" price="1405.74" buyer="Gary Stevens" />
+  <product name="GEMCITABINE" price="1468.11" buyer="Emily Parker" />
+</products>
